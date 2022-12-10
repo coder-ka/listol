@@ -6,8 +6,13 @@ export function parse(code: string): Node[] {
   const lines = code.split(/\r?\n/);
 
   function linesToNodes(preIndent: number, nodes: Node[]): Node[] {
-    let line = lines.shift();
-    if (!line) return nodes;
+    let line: string | undefined = undefined;
+
+    // skip empty lines.
+    do {
+      line = lines.shift();
+    } while (line === "");
+    if (line === undefined) return nodes;
 
     while (line[line.length - 1] === "\\") {
       const nextLine = lines.shift();
@@ -48,3 +53,12 @@ export function parse(code: string): Node[] {
 
   return linesToNodes(0, []);
 }
+
+console.log(
+  parse(`
+- a
+ - hoge
+ - c
+  - d
+`)
+);

@@ -73,10 +73,10 @@ npm i listol
 ```ts
 import { parse } from "listol";
 
-console.log(parse`
+console.log(parse(`
 - a
  - hoge
  - c
   - d
-`)
+`))
 ```

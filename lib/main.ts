@@ -3,53 +3,48 @@ export type Node = {
   children: Node[];
 };
 export function parse(code: string): Node[] {
-  function linesToNodes(
-    preIndent: number,
-    lines: string[],
-    nodes: Node[]
-  ): Node[] {
-    const line = lines.shift();
+  const lines = code.split(/\r?\n/);
+
+  function linesToNodes(preIndent: number, nodes: Node[]): Node[] {
+    let line = lines.shift();
     if (!line) return nodes;
+
+    while (line[line.length - 1] === "\\") {
+      const nextLine = lines.shift();
+      if (nextLine === undefined) break;
+      line = `${line.slice(0, line.length - 1)}${nextLine.trimStart()}`;
+    }
+
     const lineMatch = line.match(/^( *)(-)?(.+)$/m);
     if (lineMatch === null) return nodes;
     let [_1, whitespaces, _2, textSection] = lineMatch;
-    let lineEnd = textSection[textSection.length - 1];
-    while (lineEnd === "\\") {
-      const nextLine = lines.shift();
-      if (nextLine === undefined) break;
-      textSection = `${textSection}
-  ${nextLine};`;
 
-      lineEnd = nextLine[nextLine.length - 1];
-    }
     const indent = whitespaces.length;
-    const text = textSection.trim();
+    const text = textSection.trimStart();
 
     if (indent > preIndent) {
-      const children = linesToNodes(indent + 1, lines, []);
+      const children = linesToNodes(indent + 1, []);
 
       return [
         {
           text,
           children,
         },
-      ].concat(linesToNodes(indent, lines, []));
+      ].concat(linesToNodes(indent, []));
     } else if (indent === preIndent) {
       return nodes
         .concat([
           {
             text,
-            children: linesToNodes(indent + 1, lines, []),
+            children: linesToNodes(indent + 1, []),
           },
         ])
-        .concat(linesToNodes(indent, lines, []));
+        .concat(linesToNodes(indent, []));
     } else {
       lines.unshift(line);
       return nodes;
     }
   }
 
-  const lines = code.split(/\r?\n/);
-
-  return linesToNodes(0, [...lines], []);
+  return linesToNodes(0, []);
 }

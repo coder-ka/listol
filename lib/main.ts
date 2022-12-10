@@ -53,12 +53,3 @@ export function parse(code: string): Node[] {
 
   return linesToNodes(0, []);
 }
-
-console.log(
-  parse(`
-- a
- - hoge
- - c
-  - d
-`)
-);

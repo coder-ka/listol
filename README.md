@@ -57,12 +57,12 @@ To escape newline, use `\` in the end of line.
 ```
 - a
       ho\
-ge
+      ge
       c
          -d
 ```
 
-Done! Enjoy listol!
+Done! Enjoy LISTOL!
 
 ## Using npm package
 

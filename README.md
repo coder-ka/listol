@@ -34,7 +34,9 @@ in JSON: (But there is no semantic rule. This is just an example.)
 ]
 ```
 
-You can omit `-` prefix to make list item.
+There are only **5+1** rules.
+
+*1.* You can omit `-` prefix to make list item.
 
 ```
 - a
@@ -43,7 +45,7 @@ You can omit `-` prefix to make list item.
   -d
 ```
 
-Nesting is represented by indenting more than the previous line.
+*2.* Nesting is represented by indenting more than the previous line.
 
 ```
 - a
@@ -52,7 +54,7 @@ Nesting is represented by indenting more than the previous line.
          -d
 ```
 
-To escape newline, use `\` in the end of line.
+*3.* To escape newline, use `\` in the end of line.
 
 ```
 - a
@@ -62,7 +64,23 @@ To escape newline, use `\` in the end of line.
          -d
 ```
 
-Done! Enjoy LISTOL!
+*4.* Empty lines are ignored.
+
+```
+
+- a
+
+      ho\
+      ge
+
+      c
+         -d
+
+```
+
+*5.* **No syntax error!** Every strings are accepted.
+
+*6.* Done! Enjoy LISTOL!
 
 ## Using npm package
 
